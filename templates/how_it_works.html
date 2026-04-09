@@ -1,0 +1,174 @@
+<!-- templates/how_it_works.html -->
+{% extends 'base.html' %}
+
+{% block title %}How It Works | Blood AI{% endblock %}
+
+{% block content %}
+<section id="how-it-works" class="fade-in" style="max-width: 960px; margin: 3rem auto; padding: 0 1rem;">
+  <h2 style="color: var(--secondary-color); text-align: center; margin-bottom: 2rem;">How It Works</h2>
+  <div style="display: flex; gap: 1.5rem; flex-wrap: wrap; justify-content: center;">
+    <div style="flex: 1 1 250px; background: var(--card-background); border-radius: 15px; padding: 1rem; box-shadow: 0 6px 15px rgba(75, 0, 130, 0.3); text-align: center;">
+      <div style="font-size: 2rem; font-weight: 700; color: var(--primary-color); margin-bottom: 1rem;">1</div>
+      <h3>Upload Your Fingerprint</h3>
+      <p>Simply upload a clear, high-resolution fingerprint image.</p>
+    </div>
+    <div style="flex: 1 1 250px; background: var(--card-background); border-radius: 15px; padding: 1rem; box-shadow: 0 6px 15px rgba(75, 0, 130, 0.3); text-align: center;">
+      <div style="font-size: 2rem; font-weight: 700; color: var(--primary-color); margin-bottom: 1rem;">2</div>
+      <h3>AI Analysis</h3>
+      <p>Advanced deep learning model analyzes unique patterns in ridges.</p>
+    </div>
+    <div style="flex: 1 1 250px; background: var(--card-background); border-radius: 15px; padding: 1rem; box-shadow: 0 6px 15px rgba(75, 0, 130, 0.3); text-align: center;">
+      <div style="font-size: 2rem; font-weight: 700; color: var(--primary-color); margin-bottom: 1rem;">3</div>
+      <h3>Get Your Result</h3>
+      <p>Instant prediction of your blood group - A, B, AB, or O.</p>
+    </div>
+  </div>
+</section>
+
+
+<section id="blood-fact-myth-game" 
+  style="max-width:600px; margin:3rem auto; padding:1.5rem; 
+  background:#1e1e1e; border-radius:14px; box-shadow:0 4px 24px rgba(50,60,100,0.12); 
+  font-family:'Poppins',sans-serif; text-align:center;">
+
+  <h2 style="color:#7b1fa2; font-weight:800; margin-bottom:1rem;">
+    Blood Fact or Myth?
+  </h2>
+
+  <p style="color:#e0e0e0; font-weight:600; margin-bottom:1.5rem;">
+    Test your knowledge and bust some blood group myths!
+  </p>
+
+  <div id="question" 
+    style="font-size:1.15rem; font-weight:700; color:#e0e0e0; margin-bottom:1.5rem; min-height:60px;">
+  </div>
+
+  <button id="true-button" aria-label="True" 
+    style="background:#7b1fa2; color:#fff; border:none; padding:12px 20px; 
+    border-radius:10px; width:120px; cursor:pointer; font-weight:700; font-size:1rem; margin-right: 15px;">
+    True
+  </button>
+
+  <button id="false-button" aria-label="False" 
+    style="background:#ffd700; color:#232745; border:none; padding:12px 20px; 
+    border-radius:10px; width:120px; cursor:pointer; font-weight:700; font-size:1rem;">
+    False
+  </button>
+
+  <button id="play-again-button" 
+    style="background:#7b1fa2; color:#fff; border:none; padding:12px 20px; 
+    border-radius:10px; width:260px; cursor:pointer; font-weight:700; font-size:1rem; margin-top: 15px; display:none;">
+    Play Again
+  </button>
+
+  <div id="feedback" 
+    style="margin-top:1.8rem; font-size:1.15rem; font-weight:700; min-height:36px;">
+  </div>
+
+  <div id="score" 
+    style="margin-top:1.2rem; font-size:1.1rem; font-weight:600; color:#7b1fa2;">
+  </div>
+
+  <canvas id="confetti-canvas" 
+    style="position: fixed; pointer-events: none; top: 0; left: 0; width: 100%; height: 100%; z-index: 10000;">
+  </canvas>
+</section>
+
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+<script>
+  const facts = [
+    { q: "People with blood group O are universal donors.", a: true },
+    { q: "Blood group can change over your lifetime.", a: false },
+    { q: "All blood group types are equally common worldwide.", a: false },
+    { q: "AB blood group is the rarest.", a: true },
+    { q: "Rh factor is important for blood transfusion compatibility.", a: true },
+    { q: "You can get any blood type if the donor matches your blood group only.", a: true },
+    { q: "Blood groups affect personality.", a: false },
+    { q: "You only inherit blood group from your mother.", a: false }
+  ];
+
+  let currentIndex = 0;
+  let score = 0;
+
+  const questionEl = document.getElementById('question');
+  const trueBtn = document.getElementById('true-button');
+  const falseBtn = document.getElementById('false-button');
+  const playAgainBtn = document.getElementById('play-again-button');
+  const feedbackEl = document.getElementById('feedback');
+  const scoreEl = document.getElementById('score');
+  const confettiCanvas = document.getElementById('confetti-canvas');
+  const confettiInstance = confetti.create(confettiCanvas, { resize: true, useWorker: true });
+
+  const correctSound = new Audio('https://actions.google.com/sounds/v1/cartoon/clang_and_wobble.ogg');
+
+  function showQuestion() {
+    const cur = facts[currentIndex];
+    questionEl.textContent = cur.q;
+    feedbackEl.textContent = '';
+  }
+
+  function celebrate() {
+    correctSound.currentTime = 0;
+    correctSound.play();
+
+    const duration = 2000;
+    const end = Date.now() + duration;
+    (function frame() {
+      confettiInstance({ particleCount: 5, angle: 60, spread: 60, origin: { x: 0 } });
+      confettiInstance({ particleCount: 5, angle: 120, spread: 60, origin: { x: 1 } });
+      if (Date.now() < end) {
+        requestAnimationFrame(frame);
+      }
+    })();
+  }
+
+  function checkAnswer(isTrue) {
+    const correct = facts[currentIndex].a;
+    if (isTrue === correct) {
+      feedbackEl.style.color = '#4caf50'; // green
+      feedbackEl.textContent = '🎉 Correct!';
+      score++;
+      celebrate();
+    } else {
+      feedbackEl.style.color = '#f44336'; // red
+      feedbackEl.textContent = '❌ Wrong!';
+    }
+    currentIndex++;
+    if (currentIndex < facts.length) {
+      setTimeout(() => {
+        showQuestion();
+        feedbackEl.textContent = '';
+      }, 2000);
+    } else {
+      setTimeout(() => {
+        questionEl.textContent = `Quiz Complete! Your score: ${score} / ${facts.length}`;
+        feedbackEl.textContent = '';
+        trueBtn.style.display = 'none';
+        falseBtn.style.display = 'none';
+        playAgainBtn.style.display = 'inline-block';
+      }, 2000);
+    }
+    scoreEl.textContent = `Score: ${score}`;
+  }
+
+  trueBtn.addEventListener('click', () => checkAnswer(true));
+  falseBtn.addEventListener('click', () => checkAnswer(false));
+  playAgainBtn.addEventListener('click', () => {
+    currentIndex = 0;
+    score = 0;
+    scoreEl.textContent = '';
+    feedbackEl.textContent = '';
+    trueBtn.style.display = 'inline-block';
+    falseBtn.style.display = 'inline-block';
+    playAgainBtn.style.display = 'none';
+    showQuestion();
+  });
+
+  showQuestion();
+</script>
+
+
+
+
+{% endblock %}

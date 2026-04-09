@@ -1,0 +1,25 @@
+<!-- templates/home.html -->
+{% extends 'base.html' %}
+
+{% block title %}Home | Blood AI{% endblock %}
+
+{% block content %}
+  <section id="home" class="hero fade-in" >
+    <video autoplay muted loop id="hero-video">
+      <source src="{{ url_for('static', filename='bg.mp4') }}" type="video/mp4" />
+      Your browser does not support the video tag.
+    </video>
+    <div class="overlay" ></div>
+    <div class="hero-content" >
+      <h1 style="color: var(--secondary-color); font-size: 3rem; margin-bottom: 1rem;">AI-Powered Blood Group Identification</h1>
+      <p style="font-size: 1.25rem; margin-bottom: 2rem;">Unlock your blood type instantly, non-invasively, using just your fingerprint.</p>
+      <a href="/demo" class="cta-button" style="font-size: 1.1rem; padding: 1rem 3rem;">Try the Demo</a>
+    </div>
+  </section>
+
+  <section id="about" class="about fade-in" >
+    <h2 style="color: var(--secondary-color);">About the Project</h2>
+    <p>Our goal is to revolutionize blood group identification by providing safe, non-invasive alternatives. This project uses CNNs trained on diverse datasets to correlate fingerprints with blood types.</p>
+    <p>This system is a proof of concept and is not for medical diagnosis, intended only for educational and research purposes.</p>
+  </section>
+{% endblock %}

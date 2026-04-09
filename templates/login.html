@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Login | Blood AI</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='index.css') }}" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link
+    rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap"
+  />
+  <link rel="icon" href="{{ url_for('static', filename='logo.png') }}" />
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script
+    src="https://kit.fontawesome.com/41b5c3fa6a.js"
+    crossorigin="anonymous"
+  ></script>
+  <style>
+    :root {
+      --primary-color: #4b0082;
+      --secondary-color: #9370db;
+      --text-color: #e0e0e0;
+      --background-color: #121212;
+      --card-background: rgba(30, 30, 30, 0.82);
+      --input-border-color: #333;
+      --input-focus-shadow: rgba(147, 112, 219, 0.2);
+      --button-hover-color: #3a0066;
+      --error-color: #e74c3c;
+      --error-background: rgba(231, 76, 60, 0.1);
+    }
+    body {
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 0;
+      font-family: 'Inter', 'Poppins', sans-serif;
+      background: linear-gradient(-45deg, #1f4b48 , #b9a3da 65%, #7c4dda 94%);
+      background-size: 200% 200%;
+      animation: smoothPulse 20s ease-in-out infinite;
+    }
+    @keyframes smoothPulse {
+      0% {
+        background-position: 0% 50%;
+      }
+      50% {
+        background-position: 100% 50%;
+      }
+      100% {
+        background-position: 0% 50%;
+      }
+    }
+    .auth-container {
+      background: var(--card-background);
+      backdrop-filter: blur(9px) saturate(130%);
+      border-radius: 22px;
+      border: 1.3px solid rgba(147, 112, 219, 0.15);
+      box-shadow: 0 12px 36px 0 rgba(75, 0, 130, 0.22),
+        0 0 24px 4px rgba(147, 112, 219, 0.12);
+      max-width: 375px;
+      width: 92vw;
+      padding: 2.7rem 2rem 2.1rem 2rem;
+      margin: 2rem auto;
+      text-align: center;
+      transition: transform 0.3s, box-shadow 0.3s;
+      z-index: 2;
+    }
+    .auth-container img {
+      width: 64px;
+      height: 64px;
+      border-radius: 15px;
+      margin-bottom: 18px;
+      object-fit: cover;
+      object-position: center;
+      background: #fff;
+      border: 1.2px solid #9370db80;
+    }
+    .auth-container h1 {
+      color: var(--secondary-color);
+      font-size: 2.22rem;
+      margin-bottom: 2rem;
+      font-weight: 700;
+    }
+    .input-icon {
+      position: relative;
+      width: 100%;
+      margin-bottom: 1.25rem;
+      display: flex;
+    }
+    .input-icon input {
+      width: 100%;
+      padding: 1rem 2.5rem 1rem 1.1rem;
+      border-radius: 11px;
+      background: var(--background-color);
+      border: 1px solid var(--input-border-color);
+      color: var(--text-color);
+      font-size: 1rem;
+      transition: border 0.2s, box-shadow 0.2s;
+      box-sizing: border-box;
+    }
+    .input-icon input:focus {
+      border: 1.6px solid var(--secondary-color);
+      box-shadow: 0 0 0 2px var(--input-focus-shadow);
+      outline: none;
+    }
+    .input-icon .fa-lock,
+    .input-icon .fa-user {
+      position: absolute;
+      right: 44px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--secondary-color);
+      font-size: 1.1rem;
+      pointer-events: none;
+    }
+    .eye-icon {
+      position: absolute;
+      right: 16px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--secondary-color);
+      font-size: 1.06rem;
+      opacity: 0.77;
+      cursor: pointer;
+    }
+    .eye-icon:hover {
+      color: var(--primary-color);
+    }
+    button[type="submit"] {
+        width: 100%;
+        background: linear-gradient(94deg, #4b0082 67%, #9370db 100%);
+        color: #fff;
+        font-weight: 600;
+        border-radius: 11px;
+        border: none;
+        padding: 1rem 0.5rem;
+        margin-top: 0.7rem;
+        font-size: 1.1rem;
+        letter-spacing: 0.3px;
+        transition: background 0.3s ease, transform 0.3s ease;
+        box-shadow: 0 4px 16px 0 rgba(147, 112, 219, 0.16);
+        cursor: pointer;
+    }
+
+    button[type="submit"]:hover {
+        background: linear-gradient(94deg, #9370db 20%, #4b0082 100%);
+        transform: translateY(-3px) scale(1.05);
+        box-shadow: 0 6px 20px 0 rgba(147, 112, 219, 0.3);
+    }
+
+    .link-toggle {
+      margin-top: 2.1rem;
+      font-size: 0.97rem;
+    }
+    .link-toggle a {
+      color: var(--secondary-color);
+      text-decoration: none;
+      transition: color 0.2s;
+      font-weight: 600;
+    }
+    .link-toggle a:hover {
+      color: var(--primary-color);
+    }
+    .error-message {
+      color: var(--error-color);
+      background: var(--error-background);
+      border: 1.2px solid var(--error-color);
+      padding: 0.8rem;
+      border-radius: 8px;
+      margin-bottom: 1.2rem;
+      font-weight: 500;
+      text-align: center;
+    }
+    @media (max-width: 500px) {
+      .auth-container {
+        padding: 1.2rem 0.3rem;
+        max-width: 97vw;
+        border-radius: 12px;
+      }
+      .auth-container img {
+        width: 50px;
+        height: 50px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <script>
+    {% if error %}
+    Swal.fire({
+      icon: 'error',
+      title: 'Login Error',
+      text: '{{ error }}',
+      background: '{{ 'var(--card-background)' }}',
+      color: '{{ 'var(--text-color)' }}',
+      confirmButtonColor: '{{ 'var(--primary-color)' }}',
+    });
+    {% endif %}
+    function togglePassword() {
+      const pwdInput = document.getElementById('login-password')
+      const eyeToggle = document.getElementById('eye-toggle')
+      if (pwdInput.type === 'password') {
+        pwdInput.type = 'text'
+        eyeToggle.classList.remove('fa-eye-slash')
+        eyeToggle.classList.add('fa-eye')
+      } else {
+        pwdInput.type = 'password'
+        eyeToggle.classList.remove('fa-eye')
+        eyeToggle.classList.add('fa-eye-slash')
+      }
+    }
+  </script>
+  <div class="auth-container">
+    <img src="{{ url_for('static', filename='logo.png') }}" alt="Blood AI Logo" />
+    <h1>Login</h1>
+    <form action="{{ url_for('login') }}" method="post" autocomplete="off">
+      <div class="input-icon">
+        <input
+          type="text"
+          id="login-username"
+          name="username"
+          placeholder="Username"
+          required
+        />
+        <i class="fa fa-user"></i>
+      </div>
+      <div class="input-icon">
+        <input
+          type="password"
+          id="login-password"
+          name="password"
+          placeholder="Password"
+          required
+        />
+        <i class="fa fa-lock"></i>
+        <span class="eye-icon" onclick="togglePassword()"
+          ><i class="fa fa-eye-slash" id="eye-toggle"></i
+        ></span>
+      </div>
+      <button type="submit">Log In</button>
+    </form>
+    <div class="link-toggle">
+      <a href="{{ url_for('register') }}">Don't have an account? Register here</a>
+    </div>
+  </div>
+</body>
+</html>

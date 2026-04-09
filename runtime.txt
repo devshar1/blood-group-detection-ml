@@ -1,0 +1,16 @@
+Python 3.10.14
+
+--------------------
+
+step1:open anaconda prompt
+ conda activate blood-env
+
+
+ step2: navigate to project folder
+     
+
+step3: open in vs code
+       code .
+
+step4: run 
+      python aapp.py

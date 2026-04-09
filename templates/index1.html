@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Fingerprint to Blood Group Prediction</title>
+</head>
+<body>
+    <h2>Upload Fingerprint Image</h2>
+    <form method="POST" enctype="multipart/form-data">
+        <input type="file" name="file" accept="image/*">
+        <input type="submit" value="Predict">
+    </form>
+    {% if prediction %}
+        <h3>Predicted Blood Group: {{ prediction }}</h3>
+    {% endif %}
+</body>
+</html>

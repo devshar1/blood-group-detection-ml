@@ -1,0 +1,185 @@
+/* Methodology Page Specific Styles */
+
+
+/* methodology.css */
+
+/* ... other styles from the methodology page ... */
+
+/* New Keyframes for Hero Text Animation */
+@keyframes slideInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Animations for the hero section elements */
+.methodology-hero h1.animate-title {
+    opacity: 0;
+    animation: slideInUp 1s forwards 1s; /* 1s delay */
+}
+
+.methodology-hero p.animate-subtitle {
+    opacity: 0;
+    animation: slideInUp 1s forwards 1.3s; /* 0.3s after title */
+}
+
+/* ... The rest of your existing CSS for the methodology page ... */
+.methodology-hero {
+    text-align: center;
+    padding: 8rem 5%;
+    background: linear-gradient(rgba(26, 35, 47, 0.8), rgba(26, 35, 47, 0.8)), url('https://via.placeholder.com/1600x900.png?text=Fingerprint+Background') no-repeat center center/cover;
+    color: white;
+}
+
+.methodology-hero h1 {
+    font-size: 3.5rem;
+    margin-bottom: 1rem;
+}
+
+.methodology-hero p {
+    font-size: 1.25rem;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+/* Flow Section */
+.methodology-flow {
+    text-align: center;
+    padding: 5rem 5%;
+}
+
+.methodology-flow h2 {
+    font-size: 2.5rem;
+    margin-bottom: 3rem;
+}
+
+.flow-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+}
+
+.flow-step {
+    background: var(--card-background);
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+    flex: 1;
+    min-width: 200px;
+    text-align: center;
+}
+
+.flow-step i {
+    font-size: 2.5rem;
+    color: var(--secondary-color);
+    margin-bottom: 1rem;
+}
+
+.flow-arrow {
+    font-size: 2rem;
+    color: #4a5a6a;
+}
+
+/* CNN Details Section */
+.cnn-details {
+    padding: 5rem 5%;
+}
+
+.cnn-details h2 {
+    text-align: center;
+    font-size: 2.5rem;
+    margin-bottom: 3rem;
+}
+
+.details-container {
+    display: flex;
+    align-items: center;
+    gap: 3rem;
+    flex-wrap: wrap;
+}
+
+.details-text {
+    flex: 1;
+    min-width: 300px;
+}
+
+.details-text ul {
+    list-style: none;
+    padding-left: 0;
+}
+
+.details-text li {
+    background: #2a3848;
+    padding: 1rem;
+    margin-bottom: 0.5rem;
+    border-left: 4px solid var(--secondary-color);
+    border-radius: 4px;
+}
+
+.details-image {
+    flex: 1;
+    text-align: center;
+}
+
+.details-image img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 10px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+/* Performance Section */
+.performance {
+    text-align: center;
+    padding: 5rem 5%;
+}
+
+.performance-container {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    flex-wrap: wrap;
+}
+
+.metric-card {
+    background: var(--card-background);
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+    min-width: 200px;
+}
+
+.metric-card h3 {
+    color: var(--secondary-color);
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.metric-card p:first-of-type {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin: 0;
+}
+
+@media (max-width: 768px) {
+    .details-container {
+        flex-direction: column;
+    }
+
+    .flow-container {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .flow-arrow {
+        transform: rotate(90deg);
+        margin: 1rem 0;
+    }
+}

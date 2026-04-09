@@ -1,0 +1,32 @@
+<!-- templates/features.html -->
+{% extends 'base.html' %}
+
+{% block title %}Features | Blood AI{% endblock %}
+
+{% block content %}
+<section id="features" class="fade-in" style="max-width: 1080px; margin: 3rem auto; padding: 0 1rem;">
+  <h2 style="color: var(--secondary-color); text-align: center; margin-bottom: 2rem;">Key Features</h2>
+  <div class="features-container" style="display: flex; flex-wrap: wrap; gap: 1.8rem; justify-content: center;">
+    <div class="feature-card" style="flex: 1 0 250px; background: var(--card-background); border-radius: 15px; box-shadow: 0 8px 20px rgba(75, 0, 130, 0.2); text-align: center; padding: 1.5rem;">
+      <i class="fas fa-fingerprint" style="font-size: 2.5rem; color: var(--primary-color); margin-bottom: 1rem;"></i>
+      <h3 style="color: var(--secondary-color); margin-bottom: 0.5rem;">Non-Invasive</h3>
+      <p>Say goodbye to needles. Our system uses a simple fingerprint image, making it completely painless and safe.</p>
+    </div>
+    <div class="feature-card" style="flex: 1 0 250px; background: var(--card-background); border-radius: 15px; box-shadow: 0 8px 20px rgba(75, 0, 130, 0.2); text-align: center; padding: 1.5rem;">
+      <i class="fas fa-tachometer-alt" style="font-size: 2.5rem; color: var(--primary-color); margin-bottom: 1rem;"></i>
+      <h3 style="color: var(--secondary-color); margin-bottom: 0.5rem;">Rapid Results</h3>
+      <p>Get an instant blood group prediction in seconds, allowing for quick and efficient screening.</p>
+    </div>
+    <div class="feature-card" style="flex: 1 0 250px; background: var(--card-background); border-radius: 15px; box-shadow: 0 8px 20px rgba(75, 0, 130, 0.2); text-align: center; padding: 1.5rem;">
+      <i class="fas fa-shield-alt" style="font-size: 2.5rem; color: var(--primary-color); margin-bottom: 1rem;"></i>
+      <h3 style="color: var(--secondary-color); margin-bottom: 0.5rem;">High Accuracy</h3>
+      <p>Leveraging a cutting-edge deep learning model, our system delivers highly accurate predictions based on extensive training data.</p>
+    </div>
+    <div class="feature-card" style="flex: 1 0 250px; background: var(--card-background); border-radius: 15px; box-shadow: 0 8px 20px rgba(75, 0, 130, 0.2); text-align: center; padding: 1.5rem;">
+      <i class="fas fa-mobile-alt" style="font-size: 2.5rem; color: var(--primary-color); margin-bottom: 1rem;"></i>
+      <h3 style="color: var(--secondary-color); margin-bottom: 0.5rem;">Accessible</h3>
+      <p>All you need is a smartphone or a computer with an internet connection to use our web-based platform.</p>
+    </div>
+  </div>
+</section>
+{% endblock %}

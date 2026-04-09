@@ -1,0 +1,175 @@
+<!-- File: templates/base.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>{% block title %}Blood AI{% endblock %}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='index.css') }}" />
+  <link rel="icon" href="{{ url_for('static', filename='logo.png') }}" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  {% block head_extra %}{% endblock %}
+</head>
+<body>
+  <header>
+  <nav>
+    <div class="logo-container">
+      <img src="{{ url_for('static', filename='logo.png') }}" alt="Blood AI Logo" class="logo-image" />
+      <div class="logo-text">Blood AI</div>
+    </div>
+    <ul>
+      <li><a href="{{ url_for('home') }}" class="{% if request.endpoint == 'home' %}active{% endif %}">Home</a></li>
+      <li><a href="{{ url_for('features') }}" class="{% if request.endpoint == 'features' %}active{% endif %}">Features</a></li>
+      <li><a href="{{ url_for('how_it_works') }}" class="{% if request.endpoint == 'how_it_works' %}active{% endif %}">How It Works</a></li>
+      <li><a href="{{ url_for('methodology') }}" class="{% if request.endpoint == 'methodology' %}active{% endif %}">Methodology</a></li>
+      <li><a href="{{ url_for('demo') }}" class="{% if request.endpoint == 'demo' %}active{% endif %}">Demo</a></li>
+      {% if session.get('username') %}
+        <li><a href="{{ url_for('logout') }}">Logout ({{ session.username }})</a></li>
+      {% else %}
+        <li><a href="{{ url_for('login') }}">Login</a></li>
+        <li><a href="{{ url_for('register') }}">Register</a></li>
+      {% endif %}
+    </ul>
+  </nav>
+</header>
+
+
+
+<!-- Floating Open Button (Blood Drop) -->
+<div id="open-chatbot-btn"
+     style="position: fixed; bottom: 30px; right: 30px; width: 64px; height: 64px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center; cursor: pointer; z-index:99998;
+            background: radial-gradient(85% 85% at 30% 30%, #dbbfa3 0%, #eadb99 60%, #d0ae49 100%);
+            box-shadow: 0 8px 28px rgba(0,0,0,0.35);"
+     onclick="openChatbot()">
+  <img src="{{ url_for('static', filename='blood-logo.png') }}" alt="BloodBot Logo" style="width: 48px; height: 48px;"/>
+</div>
+  <!-- Blood drop icon SVG -->
+  
+
+<!-- Chatbot Widget -->
+<div id="chatbot-container"
+     style="position: fixed; bottom: 30px; right: 30px; width: 370px; background: #ffffff; border-radius: 16px;
+            box-shadow: 0 10px 40px rgba(35,39,69,0.45); color: #232745; font-family: 'Poppins',sans-serif;
+            z-index: 99999; display: none; flex-direction: column; overflow: hidden;">
+
+  <!-- HEADER -->
+  <div style="background: linear-gradient(90deg, #7b1fa2 0%, #b47ad6 50%, #ffd700 100%); color:#fff;
+              display:flex; align-items:center; gap:12px; padding:13px 17px;">
+    <div style="width: 48px; height:48px; background:#fff; border-radius:50%; display:flex; align-items:center; justify-content:center;">
+      <!-- Clean Badge SVG (header avatar) -->
+      <svg id="blood-badge" width="36" height="36" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" aria-label="Blood AI Badge">
+        <rect x="6" y="6" width="52" height="52" rx="14" fill="#232745"/>
+        <circle cx="32" cy="30" r="12" fill="#ff3040"/>
+        <rect x="30.2" y="22" width="3.6" height="16" rx="1.8" fill="#fff"/>
+        <rect x="24" y="28.2" width="16" height="3.6" rx="1.8" fill="#fff"/>
+        <text x="32" y="54" text-anchor="middle" font-family="Poppins, Arial" font-size="10" fill="#ffd700" style="letter-spacing:1px">BLOOD AI</text>
+      </svg>
+    </div>
+    <div>
+      <div style="font-weight: 700; font-size: 1.06rem; letter-spacing:.2px;">BloodBot Helpdesk</div>
+      <div style="font-size: 0.9rem; opacity:.95;">Assistant for Blood Group Prediction</div>
+    </div>
+    <button onclick="closeChatbot()"
+            style="margin-left:auto; background:rgba(255,255,255,.2); border:1px solid rgba(255,255,255,.35);
+                   padding:2px 8px; border-radius:6px; color:#fff; font-size:18px; cursor:pointer;">×</button>
+  </div>
+
+  <!-- MESSAGES -->
+  <div id="chatbot-messages"
+       style="height: 270px; background: #faf9fd; overflow-y: auto; padding:14px 12px 8px 12px;">
+    <div style="text-align:center; margin:6px 0 10px;">
+      <div style="display:inline-block; background:#ede7f6; color:#3c2a64; padding:6px 10px; border-radius:12px;">
+        Hi! Ask Me Anything or usage tips.
+      </div>
+    </div>
+  </div>
+
+  <!-- INPUT/COMMANDS -->
+  <div style="background:#f5f5f7; display:flex; gap:8px; align-items:center; padding:10px 9px;">
+    <input id="chatbot-input" type="text" placeholder="Ask me anything..." autocomplete="off"
+           style="flex:1; padding:10px 12px; border-radius:6px; border:1px solid #e0e0e0; background:#fff; color:#232745;" />
+    <button onclick="clearChatbot()"
+            style="background:#ffd700; color:#7b1fa2; border:none; padding:8px 12px; border-radius:6px; font-weight:600; cursor:pointer;">
+      Clear
+    </button>
+    <button onclick="closeChatbot()"
+            style="background:#e53935; color:#fff; border:none; padding:8px 12px; border-radius:6px; font-weight:600; cursor:pointer;">
+      Cancel
+    </button>
+  </div>
+</div>
+
+<script>
+function openChatbot() {
+  document.getElementById('chatbot-container').style.display='flex';
+  document.getElementById('open-chatbot-btn').style.display='none';
+  setTimeout(()=>document.getElementById('chatbot-input').focus(), 60);
+}
+function closeChatbot() {
+  document.getElementById('chatbot-container').style.display='none';
+  document.getElementById('open-chatbot-btn').style.display='flex';
+}
+function clearChatbot() {
+  const box = document.getElementById('chatbot-messages');
+  box.innerHTML = '';
+  document.getElementById('chatbot-input').value = '';
+  document.getElementById('chatbot-input').focus();
+}
+document.getElementById('chatbot-input').addEventListener('keypress', async function(e) {
+  if (e.key === 'Enter') {
+    const input = e.target.value.trim();
+    if (!input) return;
+    appendMessage('You', input);
+    e.target.value = '';
+    try {
+      const res = await fetch('/chatbot', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({message: input})
+      });
+      const data = await res.json();
+      appendMessage('Bot', data.response || 'Sorry, I could not understand that.');
+    } catch (error) {
+      appendMessage('Bot', 'Error connecting to chatbot.');
+    }
+  }
+});
+function appendMessage(sender, text) {
+  const container = document.getElementById('chatbot-messages');
+  const wrap = document.createElement('div');
+  wrap.style.marginBottom = '8px';
+  wrap.style.wordBreak = 'break-word';
+  if (sender === 'You') {
+    wrap.innerHTML = `<div style="text-align:right;">
+      <span style="background:#ffe0a3; color:#7b1fa2; padding:6px 10px; border-radius:14px 14px 6px 14px; display:inline-block; box-shadow:0 2px 6px rgba(0,0,0,.06);">${text}</span>
+    </div>`;
+  } else {
+    wrap.innerHTML = `<div style="text-align:left;">
+      <span style="background:#ede7f6; color:#2b2545; padding:6px 10px; border-radius:14px 14px 14px 6px; display:inline-block; box-shadow:0 2px 6px rgba(0,0,0,.06);">${text}</span>
+    </div>`;
+  }
+  container.appendChild(wrap);
+  container.scrollTop = container.scrollHeight;
+}
+</script>
+
+
+
+
+  <main>
+    {% block content %}{% endblock %}
+  </main>
+
+  <footer>
+    <p>&copy; 2025 Blood AI Project. All rights reserved.</p>
+  </footer>
+
+  {% block scripts %}{% endblock %}
+</body>
+</html>

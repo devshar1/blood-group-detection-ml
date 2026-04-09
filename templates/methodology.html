@@ -1,0 +1,87 @@
+<!-- templates/methodology.html -->
+{% extends 'base.html' %}
+
+{% block title %}Methodology - AI Blood Group Identification{% endblock %}
+
+{% block head_extra %}
+<link rel="stylesheet" href="{{ url_for('static', filename='method.css') }}">
+{% endblock %}
+
+{% block content %}
+<section class="methodology-hero">
+    <h1 class="animate-title">Our AI Methodology</h1>
+    <p class="animate-subtitle">A deep dive into how our Convolutional Neural Network (CNN) works to predict blood groups.</p>
+</section>
+<section class="methodology-flow fade-in">
+    <h2>The Process Flow</h2>
+    <div class="flow-container">
+        <div class="flow-step">
+            <i class="fas fa-database"></i>
+            <h3>1. Dataset Collection</h3>
+            <p>We curated a diverse dataset of fingerprint images, each labeled with its corresponding blood group (A, B, AB, O).</p>
+        </div>
+        <i class="fas fa-arrow-right flow-arrow"></i>
+        <div class="flow-step">
+            <i class="fas fa-images"></i>
+            <h3>2. Pre-processing</h3>
+            <p>Images were pre-processed to enhance quality. Steps included resizing, normalization, and noise reduction.</p>
+        </div>
+        <i class="fas fa-arrow-right flow-arrow"></i>
+        <div class="flow-step">
+            <i class="fas fa-brain"></i>
+            <h3>3. CNN Model Training</h3>
+            <p>A Convolutional Neural Network was trained on the pre-processed data to learn unique patterns and correlations.</p>
+        </div>
+        <i class="fas fa-arrow-right flow-arrow"></i>
+        <div class="flow-step">
+            <i class="fas fa-flask"></i>
+            <h3>4. Model Evaluation</h3>
+            <p>The model's performance was rigorously evaluated using metrics like accuracy, precision, and recall on a test dataset.</p>
+        </div>
+        <i class="fas fa-arrow-right flow-arrow"></i>
+        <div class="flow-step">
+            <i class="fas fa-code"></i>
+            <h3>5. Web Integration</h3>
+            <p>The trained model was deployed as a web service, enabling real-time predictions through our online demo.</p>
+        </div>
+    </div>
+</section>
+<section class="cnn-details fade-in">
+    <h2>Understanding the CNN Model</h2>
+    <div class="details-container">
+        <div class="details-text">
+            <p>The core of our project is a <strong>Convolutional Neural Network (CNN)</strong>, a type of deep learning model highly effective for image analysis. Unlike traditional algorithms, a CNN automatically learns hierarchical features from an image.</p>
+            <p>Our model architecture consists of several key layers:</p>
+            <ul>
+                <li><strong>Convolutional Layers:</strong> Apply filters to detect edges, textures, and patterns.</li>
+                <li><strong>Pooling Layers:</strong> Reduce dimensionality, making the model robust.</li>
+                <li><strong>Fully Connected Layers:</strong> Perform final classification into the blood groups.</li>
+            </ul>
+            <p>Popular frameworks TensorFlow and Keras were used to build and train the model.</p>
+        </div>
+        <div class="details-image">
+            <img src="{{ url_for('static', filename='bgn.jpeg') }}" alt="CNN Model Architecture Diagram" />
+        </div>
+    </div>
+</section>
+<section class="performance fade-in">
+    <h2>Model Performance</h2>
+    <div class="performance-container">
+        <div class="metric-card">
+            <h3>Accuracy</h3>
+            <p><strong>~95%</strong></p>
+            <p>Correct predictions percentage.</p>
+        </div>
+        <div class="metric-card">
+            <h3>Precision</h3>
+            <p><strong>~93%</strong></p>
+            <p>Ratio of correctly predicted positives to total positives.</p>
+        </div>
+        <div class="metric-card">
+            <h3>Recall</h3>
+            <p><strong>~96%</strong></p>
+            <p>Ratio of correctly predicted positives to actual positives.</p>
+        </div>
+    </div>
+</section>
+{% endblock %}
